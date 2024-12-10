@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/springai-ollama-ws/springai-ollama-ws.iml" filepath="$PROJECT_DIR$/springai-ollama-ws/springai-ollama-ws.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springai-openai-ws/springai-openai-ws.iml" filepath="$PROJECT_DIR$/springai-openai-ws/springai-openai-ws.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springai-ws.iml" filepath="$PROJECT_DIR$/springai-ws.iml" />
+    </modules>
+  </component>
+</project>
