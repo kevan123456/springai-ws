@@ -16,7 +16,7 @@ public class ClassPathResourceTest extends TestCase {
     public void test() throws Exception{
         ClassPathResource classPathResource = new ClassPathResource("") ;
         String path = classPathResource.getFile().getPath() ;
-        System.out.println();
+        System.out.println(path);
     }
 }
 
