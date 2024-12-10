@@ -142,15 +142,16 @@ public class ChatClientController {
         SpeechResponse response = openAiAudioSpeechModel.call(speechPrompt);
         byte[] body = response.getResult().getOutput() ;
         try {
-            writeByteArray2Mp3(body,System.getProperty("user.dir")) ;
+            writeByteArray2Mp3(body) ;
         }catch (Exception e){
             throw  new RuntimeException(e);
         }
         return "ok" ;
     }
 
-    public static void writeByteArray2Mp3(byte[] body,String dir) throws Exception{
-        FileOutputStream fos = new FileOutputStream(dir+"/wangshun.mp3") ;
+    public static void writeByteArray2Mp3(byte[] body) throws Exception{
+        ClassPathResource classPathResource = new ClassPathResource("") ;
+        FileOutputStream fos = new FileOutputStream(classPathResource.getFile().getPath()+"/test.mp3") ;
         fos.write(body);
         fos.close();
     }
@@ -163,14 +164,15 @@ public class ChatClientController {
      * @return
      */
     @GetMapping("/audio2text")
-    public String audio2text(@RequestParam(value = "message",defaultValue = "/wangshun.mp3") String message) {
+    public String audio2text(@RequestParam(value = "message",defaultValue = "/test.mp3") String message) throws Exception{
 
         OpenAiAudioTranscriptionOptions transcriptionOptions = OpenAiAudioTranscriptionOptions.builder()
                 .withResponseFormat(OpenAiAudioApi.TranscriptResponseFormat.TEXT)
                 .withTemperature(0f)
                 .build();
         String dir = System.getProperty("user.dir") ;
-        FileSystemResource audioFile = new FileSystemResource(dir+message);
+        ClassPathResource classPathResource = new ClassPathResource("") ;
+        FileSystemResource audioFile = new FileSystemResource(classPathResource.getFile().getPath()+message);
 
         AudioTranscriptionPrompt transcriptionRequest = new AudioTranscriptionPrompt(audioFile, transcriptionOptions);
         AudioTranscriptionResponse response = openAiAudioTranscriptionModel.call(transcriptionRequest);
