@@ -3,6 +3,7 @@ package com.ws.openai.controller;
 import org.springframework.ai.audio.transcription.AudioTranscriptionPrompt;
 import org.springframework.ai.audio.transcription.AudioTranscriptionResponse;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor;
 import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.model.ChatResponse;
@@ -61,6 +62,8 @@ public class ChatClientController {
                 .user(message)
                 //时间预设
                 .system(promptSystemSpec -> promptSystemSpec.param("currentDate", LocalDate.now().toString()))
+                //对话记忆
+                //.advisors(advisorSpec -> advisorSpec.param(AbstractChatMemoryAdvisor.CHAT_MEMORY_RETRIEVE_SIZE_KEY,100))
                 //远程请求大模型
                 .call()
                 //返回文本

@@ -1,6 +1,8 @@
 package com.ws.ollama.controller;
 
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor;
+import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.image.ImageModel;
@@ -47,6 +49,8 @@ public class OllamaChatClientController {
                 .user(message)
                 //预设当前时间
                 .system(promptSystemSpec -> promptSystemSpec.param("currentDate", LocalDate.now().toString()))
+                //对话记忆
+                .advisors(advisorSpec -> advisorSpec.param(AbstractChatMemoryAdvisor.CHAT_MEMORY_RETRIEVE_SIZE_KEY,100))
                 .call()
                 .content();
     }
