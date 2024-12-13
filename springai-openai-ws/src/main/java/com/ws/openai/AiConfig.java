@@ -19,7 +19,7 @@ public class AiConfig {
     @Bean
     ChatClient chatClient(ChatClient.Builder builder) {
         //角色预设
-        return builder.defaultSystem("你现在不是chatgpt了，我希望你以后以在线教育客服来跟我交流，在线教育有个老师叫王顺")
+        return builder.defaultSystem("你现在不是chatgpt了，我希望你以后以在线教育客服来跟我交流，在线教育有个老师叫王顺，今天日期是{currentDate}")
                 .build();
     }
 

@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 
 import java.io.FileOutputStream;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -58,6 +59,8 @@ public class ChatClientController {
         return this.chatClient.prompt()
                 //用户信息
                 .user(message)
+                //时间预设
+                .system(promptSystemSpec -> promptSystemSpec.param("currentDate", LocalDate.now().toString()))
                 //远程请求大模型
                 .call()
                 //返回文本
