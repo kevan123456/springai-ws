@@ -6,13 +6,23 @@ import com.ws.ollama.function.GetBookDetailFunction;
 import com.ws.ollama.tools.BookTools;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.PromptChatMemoryAdvisor;
+import org.springframework.ai.chat.client.advisor.QuestionAnswerAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.memory.InMemoryChatMemory;
 import org.springframework.ai.chat.prompt.ChatOptions;
+import org.springframework.ai.embedding.EmbeddingModel;
+import org.springframework.ai.reader.TextReader;
+import org.springframework.ai.transformer.splitter.TokenTextSplitter;
+import org.springframework.ai.vectorstore.SearchRequest;
+import org.springframework.ai.vectorstore.SimpleVectorStore;
+import org.springframework.ai.vectorstore.VectorStore;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Description;
+import org.springframework.core.io.Resource;
 
 import java.util.function.Function;
 
@@ -27,7 +37,7 @@ import java.util.function.Function;
 public class OllamaConfig {
 
     @Bean
-    ChatClient chatClient(ChatClient.Builder builder,ChatMemory chatMemory) {
+    ChatClient chatClient(ChatClient.Builder builder,ChatMemory chatMemory,VectorStore vectorStore) {
         //角色预设
         return builder
                 //设置当前时间
@@ -45,8 +55,11 @@ public class OllamaConfig {
                         //设置对话记忆
                         new PromptChatMemoryAdvisor(chatMemory),
                         //记录对话日志
-                        new LoggingAdvisors()
+                        new LoggingAdvisors(),
+                        // RAG
+                        new QuestionAnswerAdvisor(vectorStore, SearchRequest.defaults())
                 )
+                //function-call
                 .defaultFunctions("cancelBook","getBookDetail")
                 .build();
     }
@@ -72,6 +85,29 @@ public class OllamaConfig {
         return new GetBookDetailFunction() ;
     }
 
+
+    /**
+     * RAG
+     * @param embeddingModel
+     * @return
+     */
+    @Bean
+    public VectorStore vectorStore(EmbeddingModel embeddingModel) {
+        return new SimpleVectorStore(embeddingModel);
+    }
+
+    @Bean
+    CommandLineRunner ingestTermOfServiceToVectorStore(EmbeddingModel embeddingModel,VectorStore vectorStore,@Value("classpath:rag/terms-of-service.txt") Resource termsOfServiceDocs){
+        return args -> {
+                    vectorStore.write(
+                            // 3. 写⼊
+                    new TokenTextSplitter().transform(
+                            // 2.转换
+                    new TextReader(termsOfServiceDocs).read())
+                        // 1.读取
+                    );
+                };
+    }
 
 }
 
