@@ -20,7 +20,7 @@ public class LocationNameFunction implements Function<LocationNameFunction.Reque
      */
     @Override
     public Response apply(Request request) {
-        if(StringUtils.isBlank(request.name)||StringUtils.isBlank(request.location)){
+        if(StringUtils.isBlank(request.name())||StringUtils.isBlank(request.location())){
             return new Response("参数缺失，无需function-call，正常响应即可。。") ;
         }
         //调用指定的接口，目前为了测试写死

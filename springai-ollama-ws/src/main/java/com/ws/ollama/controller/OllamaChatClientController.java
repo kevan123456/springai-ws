@@ -37,14 +37,14 @@ public class OllamaChatClientController {
 
     @GetMapping("/chat")
     public String chat(@RequestParam(value = "message",defaultValue = "给我讲个笑话") String message) {
-        Prompt prompt = new Prompt(message,OllamaOptions.builder().withModel("qwen2:0.5b").withTemperature(0.4).build());
+        Prompt prompt = new Prompt(message);
         ChatResponse response = ollamaChatModel.call(prompt);
         return response.getResult().getOutput().getContent() ;
     }
 
     @GetMapping("/talk")
     public String generation(@RequestParam(value = "message",defaultValue = "给我讲个笑话") String message) {
-        Prompt prompt = new Prompt(message,OllamaOptions.builder().withModel("qwen2:0.5b").withTemperature(0.4).build());
+        Prompt prompt = new Prompt(message);
         return chatClient.prompt(prompt)
                 .user(message)
                 //预设当前时间
