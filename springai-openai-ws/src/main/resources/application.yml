@@ -1,5 +1,5 @@
 spring:
   ai:
     openai:
-      api-key: sk-6GfB34owJMtxeTKJC88741Ed95714216A8C1F5948e0629Ed
+      api-key: sk-211PNl36WaZpoS6iCq36q3NH7DKl899lmHLafWnNr65ctBtI
       base-url: https://api.xty.app

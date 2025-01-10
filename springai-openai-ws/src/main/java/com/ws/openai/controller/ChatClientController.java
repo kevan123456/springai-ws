@@ -38,7 +38,7 @@ import java.util.List;
  * @since 1.0.0
  */
 @RestController
-@RequestMapping("ai")
+@RequestMapping("openAI")
 public class ChatClientController {
 
     @Autowired
