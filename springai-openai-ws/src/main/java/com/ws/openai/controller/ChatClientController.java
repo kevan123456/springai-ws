@@ -203,6 +203,8 @@ public class ChatClientController {
                 OpenAiChatOptions.builder().withModel(OpenAiApi.ChatModel.GPT_4_O.getValue()).build()));
         return response.getResult().getOutput().getContent() ;
     }
+
+
 }
 
     
