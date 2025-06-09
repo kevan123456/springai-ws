@@ -4,7 +4,7 @@ spring:
       base-url: http://127.0.0.1:11434
       # 可以设置默认大模型
       chat:
-          model: qwen2:7b
+          model: qwen2.5vl:7b
 
 
 
